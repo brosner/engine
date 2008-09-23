@@ -3,6 +3,13 @@ from engine.queues import DummyQueue, QueueItem
 
 default_queue = DummyQueue()
 
+def configure(**options):
+    """
+    Configure the engine.
+    """
+    global default_queue
+    default_queue = options.get("queue", default_queue)
+
 def defer(func, *args, **kwargs):
     """
     Queues the callable with the passed in arguments.
