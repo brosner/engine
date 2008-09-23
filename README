@@ -15,4 +15,12 @@ How do I use engine?
 
 The basic usage of engine is to defer something to execute later. However, the
 internals are written in such way to allow for planning. You can plan your
-code to use a queue, but a queue doesn't even need to be present.
+code to use a queue, but a queue doesn't even need to be present. Lets take a
+look at an example::
+
+    >>> import engine
+    >>> def hello_world():
+    ...     print "hello world"
+    
+    >>> engine.defer(hello_world)
+    hello world
