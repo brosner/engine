@@ -19,7 +19,7 @@ class QueueItem(object):
         """
         Execute this queue item based on the stored values.
         """
-        self.func(*args)
+        self.func(*self.args)
 
 class BaseQueue(object):
     """
