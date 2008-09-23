@@ -1,0 +1,18 @@
+
+======
+engine
+======
+
+What is engine?
+===============
+
+engine is a collection of tools for processing a queue. It provides an API to
+defer a callable and run it later. engine also provides process helpers to
+set up a safe environment for clearing different kind of queues.
+
+How do I use engine?
+====================
+
+The basic usage of engine is to defer something to execute later. However, the
+internals are written in such way to allow for planning. You can plan your
+code to use a queue, but a queue doesn't even need to be present.
