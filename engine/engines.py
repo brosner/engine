@@ -16,7 +16,9 @@ class BaseEngine(object):
 
 class SingleProcessEngine(BaseEngine):
     """
-    An engine that ensures only one process can run at the same time.
+    An engine that ensures only one process can run at the same time. Useful
+    when being fired off by a cron and you need to ensure a lock is made so
+    other processes won't handle a queue at the same time.
     """
     def __init__(self, *args, **kwargs):
         self._lock_wait_timeout = kwargs.pop("lock_wait_timeout", -1)
