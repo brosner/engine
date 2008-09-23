@@ -1,4 +1,11 @@
 
+import socket
+
+try:
+    import cPickle as pickle
+except ImportError:
+    import pickle
+
 class QueueItem(object):
     """
     Encapsulates a single queue item that is put on the queue for a listener
