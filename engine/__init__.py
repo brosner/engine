@@ -3,10 +3,9 @@ from engine.queues import DummyQueue, QueueItem
 
 default_queue = DummyQueue()
 
-def defer(func, *args, queue=None):
+def defer(func, *args, **kwargs):
     """
     Queues the callable with the passed in arguments.
     """
-    if queue is None:
-        queue = default_queue
+    queue = kwargs.pop("queue", default_queue)
     queue.put(QueueItem(func, args))
