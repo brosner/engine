@@ -31,3 +31,24 @@ class DummyQueue(BaseQueue):
         Execute the given item right away.
         """
         item.execute()
+
+class StompQueue(BaseQueue):
+    """
+    A STOMP compliant queue.
+    """
+    def __init__(self):
+        import stomp
+        try:
+            self._conn = stomp.Connection()
+            self._conn.start()
+            self._conn.connect()
+        except socket.error:
+            pass # TODO: understand why the library recommends this.
+    
+    def put(self, item):
+        """
+        Pickle the queue item and hand it off to the STOMP queue named
+        /queue/[function_name].
+        """
+        message = pickle.dumps(item)
+        self._conn.send(message, destination="/queue/%s" % item.func.__name__)
