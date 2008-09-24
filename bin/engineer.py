@@ -24,7 +24,7 @@ def main():
     conn.start()
     time.sleep(2)
     conn.connect()
-    conn.subscribe(destination="/queue/hello_world", ack="auto")
+    conn.subscribe(destination="/queue/test_func", ack="auto")
     while True:
         time.sleep(10)
 

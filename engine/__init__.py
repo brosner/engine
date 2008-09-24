@@ -16,3 +16,6 @@ def defer(func, *args, **kwargs):
     """
     queue = kwargs.pop("queue", default_queue)
     queue.put(QueueItem(func, args))
+
+def test_func(*args):
+    print args
