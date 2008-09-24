@@ -47,12 +47,9 @@ class StompQueue(BaseQueue):
     """
     def __init__(self):
         import stomp
-        try:
-            self._conn = stomp.Connection()
-            self._conn.start()
-            self._conn.connect()
-        except socket.error:
-            pass # TODO: understand why the library recommends this.
+        self._conn = stomp.Connection()
+        self._conn.start()
+        self._conn.connect()
     
     def put(self, item):
         """
