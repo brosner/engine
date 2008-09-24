@@ -43,26 +43,45 @@ class DummyQueue(BaseQueue):
         item.execute()
 
 class StompProtocol(object):
+    """
+    A class that understands how to talk to a STOMP server.
+    """
     def __init__(self, host="127.0.0.1", port=61613):
         self.host = host
         self.port = port
         self._sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     
     def connect(self):
+        """
+        Connect on the socket layer to the STOMP server.
+        """
         self._sock.connect((self.host, self.port))
     
     def connect_to_queue(self):
+        """
+        Send a CONNECT command to the STOMP server.
+        """
         # TODO: support authenicated access
         self._send_frame("CONNECT")
     
     def disconnect(self):
+        """
+        Gracefully disconnect from the STOMP server.
+        """
         self._send_frame("DISCONNECT")
     
     def send(self, destination, message):
+        """
+        Send a message to a destination to the STOMP server.
+        """
         headers = {"destination": destination}
         self._send_frame("SEND", payload=message, headers=headers)
     
     def _send_frame(self, command, headers=None, payload=None):
+        """
+        An internal method to sending a frame to the STOMP server with the
+        given parameters.
+        """
         if self._sock is not None:
             if headers is not None:
                 _headers = []
