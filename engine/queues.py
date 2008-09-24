@@ -42,16 +42,53 @@ class DummyQueue(BaseQueue):
         """
         item.execute()
 
+class StompProtocol(object):
+    def __init__(self, host="127.0.0.1", port=61613):
+        self.host = host
+        self.port = port
+        self._sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    
+    def connect(self):
+        self._sock.connect((self.host, self.port))
+    
+    def connect_to_queue(self):
+        # TODO: support authenicated access
+        self._send_frame("CONNECT")
+    
+    def disconnect(self):
+        self._send_frame("DISCONNECT")
+    
+    def send(self, destination, message):
+        headers = {"destination": destination}
+        self._send_frame("SEND", payload=message, headers=headers)
+    
+    def _send_frame(self, command, headers=None, payload=None):
+        if self._sock is not None:
+            if headers is not None:
+                _headers = []
+                for key, value in headers.items():
+                    _headers.append("%s:%s\n" % (key, value))
+                headers = "".join(_headers)
+            else:
+                headers = ""
+            if payload is None:
+                payload = ""
+            frame = "%s\n%s\n%s\x00" % (command, headers, payload)
+            self._sock.sendall(frame)
+        else:
+            # XXX: have an Exception subclass
+            raise Exception, "not connected"
+
 class StompQueue(BaseQueue):
     """
     A STOMP compliant queue.
     """
-    def __init__(self):
-        import stomp
-        self._conn = stomp.Connection()
-        self._conn.start()
-        time.sleep(2)
-        self._conn.connect()
+    protocol_class = StompProtocol
+    
+    def __init__(self, **kwargs):
+        self.protocol = self.protocol_class(**kwargs)
+        self.protocol.connect()
+        self.protocol.connect_to_queue()
     
     def put(self, item):
         """
@@ -59,4 +96,4 @@ class StompQueue(BaseQueue):
         /queue/[function_name].
         """
         message = pickle.dumps(item)
-        self._conn.send(message, destination="/queue/%s" % item.func.__name__)
+        self.protocol.send("/queue/%s" % item.func.__name__, message)
