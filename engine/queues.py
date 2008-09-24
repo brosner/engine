@@ -1,4 +1,5 @@
 
+import time
 import socket
 
 try:
@@ -49,6 +50,7 @@ class StompQueue(BaseQueue):
         import stomp
         self._conn = stomp.Connection()
         self._conn.start()
+        time.sleep(2)
         self._conn.connect()
     
     def put(self, item):

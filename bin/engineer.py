@@ -22,6 +22,7 @@ def main():
     conn = stomp.Connection()
     conn.add_listener(QueueListener())
     conn.start()
+    time.sleep(2)
     conn.connect()
     conn.subscribe(destination="/queue/hello_world", ack="auto")
     while True:
