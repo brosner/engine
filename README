@@ -38,8 +38,8 @@ queue you can use ``StompQueue``. Lets take a look at an example::
     
     >>> engine.defer(hello_world, queue=engine.StompQueue())
 
-The above code will now actual defer the call to ``hello_world`` by sending it
-to the queue.
+The above code will now defer the call to ``hello_world`` by sending it to the
+queue.
 
 You can define the default queue used by engine. To do this you should use
 ``engine.configure``. Here is an example changing the default queue from
