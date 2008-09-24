@@ -1,5 +1,5 @@
 
-from engine.queues import DummyQueue, QueueItem
+from engine.queues import *
 
 default_queue = DummyQueue()
 

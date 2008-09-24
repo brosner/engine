@@ -36,8 +36,7 @@ queue you can use ``StompQueue``. Lets take a look at an example::
     >>> def hello_world():
     ...     print "hello world"
     
-    >>> from engine.queues import StompQueue
-    >>> engine.defer(hello_world, queue=StompQueue())
+    >>> engine.defer(hello_world, queue=engine.StompQueue())
 
 The above code will now actual defer the call to ``hello_world`` by sending it
 to the queue.
@@ -47,7 +46,6 @@ You can define the default queue used by engine. To do this you should use
 ``DummyQueue`` to ``StompQueue``::
 
     >>> import engine
-    >>> from engine.queues import StompQueue
-    >>> engine.configure(queue=StompQueue())
+    >>> engine.configure(queue=engine.StompQueue())
 
 Now all calls to ``engine.defer`` will use the ``StompQueue`` instance.

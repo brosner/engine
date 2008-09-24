@@ -6,6 +6,8 @@ try:
 except ImportError:
     import pickle
 
+__all__ = ("QueueItem", "DummyQueue", "StompQueue",)
+
 class QueueItem(object):
     """
     Encapsulates a single queue item that is put on the queue for a listener
