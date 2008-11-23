@@ -22,7 +22,7 @@ class SingleProcessEngine(BaseEngine):
     """
     def __init__(self, *args, **kwargs):
         self._lock_wait_timeout = kwargs.pop("lock_wait_timeout", -1)
-        super(CronEngine, self).__init__(self, *args, **kwargs)
+        super(SingleProcessEngine, self).__init__(self, *args, **kwargs)
     
     def run(self):
         """
